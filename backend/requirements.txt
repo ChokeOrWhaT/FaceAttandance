@@ -1,11 +1,8 @@
-Flask
+flask
 flask-cors
-opencv-pytho
-face-recognition
 numpy
+opencv-python-headless
+face-recognition
 firebase-admin
-python-dotenv
 gunicorn
-Werkzeug
-cmake
-dlib
+python-dotenv
