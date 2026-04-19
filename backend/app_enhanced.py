@@ -25,12 +25,16 @@ logger = logging.getLogger(__name__)
 # ===============================
 
 try:
+    import os, json
+
     if not firebase_admin._apps:
-        cred = credentials.Certificate("serviceAccountKey.json")
+        firebase_key = json.loads(os.environ["FIREBASE_KEY"])
+        cred = credentials.Certificate(firebase_key)
         firebase_admin.initialize_app(cred)
 
     db = firestore.client()
     logger.info("✅ Firebase initialized successfully")
+
 except Exception as e:
     logger.error(f"❌ Firebase initialization failed: {e}")
     raise
@@ -450,13 +454,17 @@ def server_error(error):
 # ===============================
 
 if __name__ == "__main__":
+    import os
+
+    port = int(os.environ.get("PORT", 5000))
+
     logger.info("🚀 Starting FaceScan AI Backend Server")
-    logger.info("📍 Running on http://0.0.0.0:5000")
+    logger.info(f"📍 Running on http://0.0.0.0:{port}")
     logger.info("✅ CORS enabled for cross-origin requests")
 
     app.run(
         host="0.0.0.0",
-        port=5000,
-        debug=False,  # Set to True for development
+        port=port,
+        debug=False,
         threaded=True,
     )
